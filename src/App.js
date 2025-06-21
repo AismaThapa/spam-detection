@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import EmailSpamChecker from './components/EmailSpamChecker';
+import FeatureSection from "./components/FeatureSection";
+import HowItWorks from "./components/HowItWorks";
+import SampleEmails from "./components/SampleEmails";
+import Analyzer from "./components/Analyzer";
+import Footer from "./components/Footer";
 
 function App() {
+  const [emailContent, setEmailContent] = useState("");
+
+  const handleSelectEmail = (email) => {
+    setEmailContent(email); // This will automatically update Analyzer
+    setTimeout(() => {
+      document.getElementById("analyzer")?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <EmailSpamChecker />
+
+      {/* ✅ Always show analyzer before sample emails */}
+      <Analyzer emailContent={emailContent} setEmailContent={setEmailContent} />
+
+      <SampleEmails onSelectEmail={handleSelectEmail} />
+
+      <FeatureSection />
+      <HowItWorks />
+      <Footer />
     </div>
   );
 }
